@@ -1,0 +1,26 @@
+{
+    "name": "whyiyhw/first_framework",
+    "description": "this is my first framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xueyi",
+            "email": "15827543830@163.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "nikic/fast-route": "^2.0@dev",
+        "topthink/think-orm": "dev-master",
+        "twig/twig": "^2.0"
+    },
+    "require-dev": {
+        "filp/whoops": "^2.2@dev"
+    }
+}
