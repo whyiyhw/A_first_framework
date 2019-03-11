@@ -18,7 +18,7 @@
     "require": {
         "nikic/fast-route": "^2.0@dev",
         "topthink/think-orm": "dev-master",
-        "twig/twig": "^2.0"
+        "twig/twig": "2.6.2"
     },
     "require-dev": {
         "filp/whoops": "^2.2@dev"
