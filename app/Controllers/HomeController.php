@@ -20,13 +20,12 @@ class HomeController
         echo json_encode($res, JSON_UNESCAPED_UNICODE);
     }
 
-    public function ormUser()
+    public function ormUser(OrmModel $ormModel, $id = 2)
     {
-        $user = new OrmModel();
         try {
-            $res = $user->findOrFail(1);
+            $res = $ormModel->findOrFail(1);
+            $res['default_id'] = $id;
             echo json_encode($res, JSON_UNESCAPED_UNICODE);
-
         } catch (\Throwable $e) {
             echo json_encode($e->getMessage());
         }

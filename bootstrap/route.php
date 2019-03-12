@@ -50,11 +50,13 @@ class Router
                 $handler = $routeInfo[1];
 //                $vars = $routeInfo[2];
                 $array = explode("@", $handler);
-                //        var_dump($controller);die;
-                //    echo "(" .$controller[0].")->" . $controller[1]."()";die;
                 $controller = new $array[0];
                 $action = $array[1];
-                $controller->$action();
+                try {
+                    \Ioc::make($controller, $action);
+                } catch (\Throwable $e) {
+                    throw new FastRoute\BadRouteException("action error");
+                }
                 // ... call $handler with $vars
                 break;
         }
