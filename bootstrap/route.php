@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
 /**
  * 路由器
  *
@@ -20,6 +21,9 @@ class Router
         $this->dispatcher = $dispatcher;
     }
 
+    /**
+     * @return Symfony\Component\HttpFoundation\Response
+     */
     public function dispatcher()
     {
         // 获取url 与 请求方式
@@ -39,12 +43,12 @@ class Router
         switch ($routeInfo[0]) {
             case FastRoute\Dispatcher::NOT_FOUND:
                 // ... 404 Not Found
-                throw new FastRoute\BadRouteException("404 Not Found");
+                return new Response("404 Not Found" , 404);
                 break;
             case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
 //                $allowedMethods = $routeInfo[1];
                 // ... 405 Method Not Allowed
-                throw new FastRoute\BadRouteException("request method not found");
+                return new Response("request method not found" , 500);
                 break;
             case FastRoute\Dispatcher::FOUND:
                 $handler = $routeInfo[1];
@@ -53,12 +57,13 @@ class Router
                 $controller = new $array[0];
                 $action = $array[1];
                 try {
-                    \Ioc::make($controller, $action);
+                    return \Ioc::make($controller, $action);
                 } catch (\Throwable $e) {
-                    throw new FastRoute\BadRouteException("action error");
+                    return new Response("action error" , 500);
                 }
                 // ... call $handler with $vars
                 break;
         }
+        return new Response();
     }
 }

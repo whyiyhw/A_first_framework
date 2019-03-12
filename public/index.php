@@ -12,4 +12,8 @@ require_once __DIR__ . '/../bootstrap/ioc.php';
 require_once __DIR__ . "/../bootstrap/route.php";
 
 // 启动路由分配
-(new \Router($route))->dispatcher();
+$response = (new \Router($route))->dispatcher();
+
+$response->prepare(new \Symfony\Component\HttpFoundation\Request());
+
+$response->send();
