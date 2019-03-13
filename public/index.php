@@ -1,15 +1,16 @@
 <?php
-// 引入自动加载
-require_once __DIR__ . '/../vendor/autoload.php';
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2019/3/13 0013
+ * Time: 9:06
+ */
+define('_ROOT', dirname(__FILE__) . DIRECTORY_SEPARATOR);
+define('_SYS_PATH', _ROOT.'..'.DIRECTORY_SEPARATOR.'Sakura'.DIRECTORY_SEPARATOR);
+define('_APP', _ROOT.'..'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR);
 
-// 启动器
-$route = require_once __DIR__ . '/../bootstrap/app.php';
+$_config = require_once  _SYS_PATH.'config.php';
+require_once  _SYS_PATH.'bootstrap.php';
 
-// ioc 注入
-require_once __DIR__ . '/../bootstrap/ioc.php';
-
-// 加载路由器
-require_once __DIR__ . "/../bootstrap/route.php";
-
-// 启动路由分配
-(new \Router($route))->dispatcher();
+$app = new Sakura;
+$app->run();
