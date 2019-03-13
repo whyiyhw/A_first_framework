@@ -12,5 +12,5 @@ define('_APP', _ROOT.'..'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR);
 $_config = require_once  _SYS_PATH.'config.php';
 require_once  _SYS_PATH.'bootstrap.php';
 
-$app = new Sakura;
+$app = new Sakura();
 $app->run();

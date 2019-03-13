@@ -24,7 +24,7 @@ class Route
         $this->group = $route['group'];
         $this->control = $route['control'];
         $this->action = $route['action'];
-        // 不用 if 如何 做判定
+        // 不用 if 写判定
         !empty($route['param']) && $this->params = $route['params'];
     }
 
@@ -71,6 +71,75 @@ class Route
      */
     public function getRequest()
     {
-        return $this->parseTradition();
+        return $this->getPathInfo();
+    }
+
+    /**
+     * 解析pathInfo 模式
+     * @return array
+     */
+    public function getPathInfo()
+    {
+        $filter_param = ['<', '>', '"', "'", "%3C", '%3E', '%22', '%27', "%3c", "%3e"];
+        $uri = str_replace($filter_param, '', $_SERVER['REQUEST_URI']);
+        $path = parse_url($uri);
+        if (strpos($path['path'], 'index.php' == 0)) {
+            $url_base = $path['path'];
+        } else {
+            $url_base = substr($path['path'], strlen('index.php') + 1);
+        }
+        // 去除左边的 '/'
+        $url_base = ltrim($url_base, '/');
+        if ($url_base == '') {
+            return $this->parseTradition();
+        }
+        // 获取一个参数数组
+        $reqArray = explode('/', $url_base);
+        foreach ($reqArray as $k => $v) {
+            if (empty($v)) {
+                unset($reqArray[$k]);
+            }
+        }
+        // 统计还剩几个参数
+        $count = count($reqArray);
+        if (empty($reqArray) || empty($reqArray[0])) {
+            $count = 0;
+        }
+
+        switch ($count) {
+            case 0;
+                $route['group'] = $GLOBALS['_config']['defaultApp'];
+                $route['control'] = $GLOBALS['_config']['defaultController'];
+                $route['action'] = $GLOBALS['_config']['defaultAction'];
+                break;
+            case 1;
+                if (strpos($reqArray[0], ':')) {
+                    $gc = explode(':', $reqArray[0]);
+                    $route['group'] = $gc[0];
+                    $route['control'] = $gc[1];
+                    $route['action'] = $GLOBALS['_config']['defaultAction'];
+                } else {
+                    $route['group'] = $GLOBALS['_config']['defaultApp'];
+                    $route['control'] = $reqArray[0];
+                    $route['action'] = $GLOBALS['_config']['defaultAction'];
+                }
+                break;
+            default:
+                if (strpos($reqArray[0], ':')) {
+                    $gc = explode(':', $reqArray[0]);
+                    $route['group'] = $gc[0];
+                    $route['control'] = $gc[1];
+                    $route['action'] = $reqArray[1];
+                } else {
+                    $route['group'] = $GLOBALS['_config']['defaultApp'];
+                    $route['control'] = $reqArray[0];
+                    $route['action'] = $reqArray[1];
+                }
+                // 结构 为 /c/a/id/1 所以可以这么玩 或者 /g:c/a/id/1
+                for ($i = 2; $i < $count; $i++) {
+                    $route['param'][$reqArray[$i]] = isset($reqArray[++$i]) ? $reqArray[$i] : '';
+                }
+        }
+        return $route;
     }
 }

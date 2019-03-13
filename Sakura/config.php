@@ -15,6 +15,11 @@ return [
     'urlControllerName' => 'c',// 自定义控制器名称
     'urlActionName' => 'a', // 自定义方法名称
     'urlGroupName' => 'g',// 自定义分组名称
-    'db' => [],
+    'db' => [
+        'dsn' => 'mysql:dbname=test;host=127.0.0.1',
+        'username' => 'root',
+        'password' => 'root',
+        'param' => []
+    ],
     'smtp' => [],
 ];
