@@ -10,6 +10,9 @@ class Sakura
 {
     private $route;
 
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         require_once _SYS_PATH . 'core' . DIRECTORY_SEPARATOR . 'Route.php';
@@ -19,7 +22,7 @@ class Sakura
 
     public function route()
     {
-        $this->route = new Route();
+        $this->route = new \Route();
         $this->route->init();
     }
 
