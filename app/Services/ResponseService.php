@@ -30,7 +30,7 @@ class ResponseService
      * @param string $content
      * @return Response
      */
-    public function echo($content = '')
+    public function show($content = '')
     {
         return $this->response->setContent($content);
     }

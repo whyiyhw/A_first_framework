@@ -21,11 +21,20 @@ class HomeController
      * @param ResponseService $response
      * @return Response
      */
+    /**
+     * @param RequestService $request
+     * @param ResponseService $response
+     * @return Response
+     * @throws Throwable
+     */
     public function index(RequestService $request, ResponseService $response)
     {
-        $name = $request->get("name", "world");
-
-        return $response->echo("hello {$name}");
+        $view = new ViewServices();
+        $view->display("index",[]);
+        return $response->show();
+//        $name = $request->get("name", "world");
+//
+//        return $response->echo("hello {$name}");
     }
 
     /**
@@ -72,6 +81,6 @@ class HomeController
         $res = $user->findOrFail(1);
         $view = new ViewServices();
         $view->display("index", ['name' => $res['name']]);
-        return $response->echo();
+        return $response->show();
     }
 }
