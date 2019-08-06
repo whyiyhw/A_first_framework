@@ -1,11 +1,11 @@
 {
-    "name": "whyiyhw/first_framework",
-    "description": "this is my first framework",
-    "type": "project",
+    "name": "whyiyhw/sakura",
+    "description": "这是一个实验品框架",
+    "type": "prroject",
     "license": "MIT",
     "authors": [
         {
-            "name": "xueyi",
+            "name": "xuey",
             "email": "15827543830@163.com"
         }
     ],
@@ -15,7 +15,7 @@
         }
     },
     "minimum-stability": "dev",
-    "require": {
+        "require": {
         "nikic/fast-route": "1.3.0",
         "topthink/think-orm": "2.0.0",
         "twig/twig": "2.6.2",
